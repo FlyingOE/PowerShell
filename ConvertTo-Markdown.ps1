@@ -1,25 +1,25 @@
 ﻿<#
-    .Synopsis
+.SYNOPSIS
     Converts a PowerShell object to a Markdown table.
-    
-    .Description
-    Converts a PowerShell object to a Markdown table.
-    .Parameter InputObject 
+
+.PARAMETER InputObject
     PowerShell object to be converted
-   
-    .Example 
+
+.EXAMPLE
     ConvertTo-Markdown -InputObject (Get-Service)
     Converts a list of running services on the local machine to a Markdown table
-    .Example
+.EXAMPLE
     ConvertTo-Markdown -InputObject (Import-CSV "C:\Scratch\lwsmachines.csv") | Out-File "C:\Scratch\file.markdown" -Encoding "ASCII"
     Converts a CSV file to a Markdown table
-    .Example
+.EXAMPLE
     Import-CSV "C:\Scratch\lwsmachines.csv" | ConvertTo-Markdown | Out-File "C:\Scratch\file2.markdown" -Encoding "ASCII"
     Converts a CSV file to a markdown table via the pipeline.
-    .Notes
+
+.NOTES
     Ben Neise 10/09/14
     Aaron Calderon 06/09/2016 Added new line `n on each line printed
-    #>
+    Freddie Wu 15/02/2019 Cloned from https://gist.github.com/aaroncalderon/09a2833831c0f3a3bb57fe2224963942
+#>
 Function ConvertTo-Markdown {
     [CmdletBinding()]
     [OutputType([string])]
