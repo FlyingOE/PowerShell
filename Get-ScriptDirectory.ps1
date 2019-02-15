@@ -7,7 +7,7 @@
 Function Get-ScriptDirectory {
     If ($hostinvocation -ne $null) {
         Split-Path $hostinvocation.MyCommand.Path
-    } else {
+    } Else {
         Split-Path $Script:MyInvocation.MyCommand.Path
     }
 }

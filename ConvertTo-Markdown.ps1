@@ -19,11 +19,14 @@
     Ben Neise 10/09/14
     Aaron Calderon 06/09/2016 Added new line `n on each line printed
     Freddie Wu 15/02/2019 Cloned from https://gist.github.com/aaroncalderon/09a2833831c0f3a3bb57fe2224963942
+
+.LINK
+    https://github.com/FlyingOE/PowerShell
 #>
 Function ConvertTo-Markdown {
     [CmdletBinding()]
     [OutputType([string])]
-    Param (
+    Param(
         [Parameter(
             Mandatory = $true,
             Position = 0,
@@ -34,18 +37,18 @@ Function ConvertTo-Markdown {
 
     Begin {
         $items = @()
-        $columns = @{}
+        $columns = [ordered]@{}
     }
 
     Process {
-        ForEach($item in $collection) {
+        ForEach ($item in $collection) {
             $items += $item
 
             $item.PSObject.Properties | %{
-	        if ($_.Value -eq $null) {
-		    $_.Value = ""
-	        }
-                if(-not $columns.ContainsKey($_.Name) -or $columns[$_.Name] -lt $_.Value.ToString().Length) {
+	            If ($_.Value -eq $null) {
+		            $_.Value = ""
+	            }
+                If (-not $columns.Contains($_.Name) -or $columns[$_.Name] -lt $_.Value.ToString().Length) {
                     $columns[$_.Name] = $_.Value.ToString().Length
                 }
             }
@@ -53,29 +56,29 @@ Function ConvertTo-Markdown {
     }
 
     End {
-        ForEach($key in $($columns.Keys)) {
+        ForEach ($key in $($columns.Keys)) {
             $columns[$key] = [Math]::Max($columns[$key], $key.Length)
         }
 
         $header = @()
-        ForEach($key in $columns.Keys) {
+        ForEach ($key in $columns.Keys) {
             $header += ('{0,-' + $columns[$key] + '}') -f $key
         }
-        $($header -join ' | ') + "`n"
+        ($header -join ' | ') + "`n"
 
         $separator = @()
-        ForEach($key in $columns.Keys) {
+        ForEach ($key in $columns.Keys) {
             $separator += '-' * $columns[$key]
         }
-        $($separator -join ' | ') + "`n"
+        ($separator -join ' | ') + "`n"
 
 
-        ForEach($item in $items) {
+        ForEach ($item in $items) {
             $values = @()
-            ForEach($key in $columns.Keys) {
+            ForEach ($key in $columns.Keys) {
                 $values += ('{0,-' + $columns[$key] + '}') -f $item.($key)
             }
-            $($values -join ' | ') + "`n"
+            ($values -join ' | ') + "`n"
         }
     }
 }
